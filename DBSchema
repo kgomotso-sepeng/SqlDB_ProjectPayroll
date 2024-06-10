@@ -1,0 +1,55 @@
+If not exists(select * from sys.sysdatabases where name = 'BasicPayroll') 
+	create database BasicPayroll
+
+Go
+
+Use BasicPayroll
+
+Go 
+
+if not exists(select * from INFORMATION_SCHEMA.TABLES where TABLE_NAME = 'Department')
+CREATE TABLE Department (
+    DepartmentID INT PRIMARY KEY,
+    Name NVARCHAR(100) NOT NULL,
+    Location NVARCHAR(100)
+);
+
+if not exists(select * from INFORMATION_SCHEMA.TABLES where TABLE_NAME = 'Employee')
+CREATE TABLE Employee (
+    EmployeeID INT PRIMARY KEY,
+    FirstName NVARCHAR(50) NOT NULL,
+    LastName NVARCHAR(50) NOT NULL,
+    Email NVARCHAR(100),
+    PhoneNumber NVARCHAR(20),
+    DepartmentID INT,
+    FOREIGN KEY (DepartmentID) REFERENCES Department(DepartmentID)
+);
+
+
+if not exists(select * from INFORMATION_SCHEMA.TABLES where TABLE_NAME = 'Payroll')
+CREATE TABLE Payroll (
+    PayrollID INT PRIMARY KEY,
+    EmployeeID INT,
+    Salary DECIMAL(10, 2),
+    StartDate DATE,
+    EndDate DATE,
+    FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID)
+);
+
+
+if not exists(select * from INFORMATION_SCHEMA.TABLES where TABLE_NAME = 'DeductionType')
+CREATE TABLE DeductionType (
+    DeductionTypeID INT PRIMARY KEY,
+    Name NVARCHAR(100) NOT NULL,
+    Description NVARCHAR(255)
+);
+
+if not exists(select * from INFORMATION_SCHEMA.TABLES where TABLE_NAME = 'Deduction')
+CREATE TABLE Deduction (
+    DeductionID INT PRIMARY KEY,
+    EmployeeID INT,
+    DeductionTypeID INT,
+    Amount DECIMAL(10, 2),
+    FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID),
+    FOREIGN KEY (DeductionTypeID) REFERENCES DeductionType(DeductionTypeID)
+);
