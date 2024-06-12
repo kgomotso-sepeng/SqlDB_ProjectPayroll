@@ -32,8 +32,8 @@ Go
 
 
 
-/*1. Temp Table Used  To Avoid using Loops in Stored Procedures 
-	Instead of using Loops then use Joint Update,Delete or Insert or Target-Source Statement 
+/*1. Temp Table Used  To Avoid Using Loops in Stored Procedures 
+	Instead of using Loops then use Joint Update, Delete or Insert or Target-Source Statement 
 */
 
 	--Drop temp table if exists
@@ -55,12 +55,12 @@ Go
 	--Delete matching records with a joint statement instead of looping through huge amount of data
 	Delete a
 	from Employee a
-	Join #Emp
+	inner Join #Emp
 	on (a.EmployeeID = #Emp.EmployeeID)
 
---2. Using Merge Technique for better optimization
+--2. Using Merge Technique for Better Optimization
 	
-Begin Transaction -- Use For Data Intergrity
+Begin Transaction -- Use For Data Integrity
 
 	Merge Into Employee as target
 	using #Emp as Source
